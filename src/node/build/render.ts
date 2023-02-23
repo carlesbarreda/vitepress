@@ -91,7 +91,7 @@ export async function renderPage(
     .map((file) => {
       return `<link rel="modulepreload" href="${
         EXTERNAL_URL_RE.test(file) ? '' : siteData.base // don't add base to external urls
-      }${file}">`
+      }/${file}">`
     })
     .join('\n    ')
 
@@ -99,12 +99,12 @@ export async function renderPage(
     .map((file) => {
       return `<link rel="prefetch" href="${
         EXTERNAL_URL_RE.test(file) ? '' : siteData.base // don't add base to external urls
-      }${file}">`
+      }/${file}">`
     })
     .join('\n    ')
 
   const stylesheetLink = cssChunk
-    ? `<link rel="preload stylesheet" href="${siteData.base}${cssChunk.fileName}" as="style">`
+    ? `<link rel="preload stylesheet" href="${siteData.base}/${cssChunk.fileName}" as="style">`
     : ''
 
   const title: string = createTitle(siteData, pageData)
@@ -140,7 +140,7 @@ export async function renderPage(
         inlinedScript = `<script type="module">${matchingChunk.code}</script>`
         fs.removeSync(path.resolve(config.outDir, matchingChunk.fileName))
       } else {
-        inlinedScript = `<script type="module" src="${siteData.base}${matchingChunk.fileName}"></script>`
+        inlinedScript = `<script type="module" src="${siteData.base}/${matchingChunk.fileName}"></script>`
       }
     }
   }
@@ -167,7 +167,7 @@ export async function renderPage(
     }
     ${
       appChunk
-        ? `<script type="module" async src="${siteData.base}${appChunk.fileName}"></script>`
+        ? `<script type="module" async src="${siteData.base}/${appChunk.fileName}"></script>`
         : ``
     }
     ${inlinedScript}
